@@ -1,0 +1,14 @@
+[
+  ".gitattributes",
+  ".gitignore",
+  "CHANGELOG.md",
+  "INSTALL.txt",
+  "README.md",
+  "assets/ARTWORK.md",
+  "assets/banner.png",
+  "assets/thumbnail.png",
+  "publication-files.json",
+  "scripts/build.py",
+  "src/mod_bindings_menu.lua",
+  "tests/test_build.py"
+]

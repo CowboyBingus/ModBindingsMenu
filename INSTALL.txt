@@ -1,0 +1,19 @@
+Mod Bindings Menu v1.0
+
+Install Bingus Shared Loader v16 or newer and import this ZIP into Arsenal or
+HD2MM. Enable and deploy both, then restart Helldivers 2. Keep the shared loader
+as the winning Wwise startup replacement.
+
+Install Galactic Menu Hotkey separately, or enable its Vanilla Plus Megapack
+option. Mod Bindings Menu is a separate dependency and is not in the Megapack.
+Find MODS under General on the Mouse & Keyboard or Controller binding page.
+The Galactic Map keyboard binding defaults to Tab. Controller rows can capture
+a binding, but controller button activation is not yet supported.
+
+Supports Steam build 25327279. Rebuild the input resource after game updates.
+Conflicts with other content/input.config replacements or mods using the two
+reserved Debugmenu input actions.
+
+https://github.com/CowboyBingus/BingusSharedLoader/releases/latest
+https://github.com/CowboyBingus/ModBindingsMenu/releases/latest
+https://github.com/CowboyBingus/GalacticMenuHotkey/releases/latest
