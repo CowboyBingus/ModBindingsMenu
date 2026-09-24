@@ -1,0 +1,3 @@
+- Update the shifted native binding addresses for Steam build 25480438.
+- Preserve the MODS binding page and reserved addon slots.
+- Offline builds and package checks pass; live gameplay validation remains pending.

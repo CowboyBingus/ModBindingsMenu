@@ -1,12 +1,14 @@
+> Current local compatibility candidate for Steam build 25480438 / EXE 1.8.46015.0. Offline checks passed; live gameplay verification is pending.
+
 ![Mod Bindings Menu](assets/banner.png)
 
-# Mod Bindings Menu v1.0
+# Mod Bindings Menu v1.1
 
 Adds a **MODS** section to the General tab of both the Mouse & Keyboard and Controller binding pages. Rows use Helldivers 2's own capture widgets and saved input settings. The first slot is used by Galactic Menu Hotkey and defaults to Tab on a keyboard. A controller button can be assigned on the Controller page.
 
-This mod is a separate install from Galactic Menu Hotkey. Install [the release ZIP](https://github.com/CowboyBingus/ModBindingsMenu/releases/latest), [Galactic Menu Hotkey](https://github.com/CowboyBingus/GalacticMenuHotkey/releases/latest) (or its Megapack option), and [Bingus Shared Loader v16 or newer](https://github.com/CowboyBingus/BingusSharedLoader/releases/latest). Mod Bindings Menu is a separate dependency and is not bundled in Vanilla Plus Megapack. Enable and deploy all three, then restart the game. Keep the shared loader as the winning Wwise startup replacement. The bindings mod ships its own `content/input.config` override; another mod that replaces that resource must be merged with it.
+This mod is a separate install from Galactic Menu Hotkey. Install [the release ZIP](https://github.com/CowboyBingus/ModBindingsMenu/releases/latest), [Galactic Menu Hotkey](https://github.com/CowboyBingus/GalacticMenuHotkey/releases/latest) (or its Megapack option), and [Bingus Shared Loader v17 or newer](https://github.com/CowboyBingus/BingusSharedLoader/releases/latest). Mod Bindings Menu is a separate dependency and is not bundled in Vanilla Plus Megapack. Enable and deploy all three, then restart the game. Keep the shared loader as the winning Wwise startup replacement. The bindings mod ships its own `content/input.config` override; another mod that replaces that resource must be merged with it.
 
-The native offsets and input resource are for Steam build **25327279** only. The addon checks the executable and DLL hashes before editing the bindings UI. The packaged input resource itself is version specific and must be rebuilt after a game update. This revision uses two dormant Debugmenu input actions as slots, so it conflicts with mods that use those actions.
+The native offsets and input resource are for Steam build **25480438** only. The addon checks the executable and DLL hashes before editing the bindings UI. The packaged input resource itself is version specific and must be rebuilt after a game update. This revision uses two dormant Debugmenu input actions as slots, so it conflicts with mods that use those actions.
 
 The MODS header uses a runtime localization override only while the bindings page is active. Keyboard input polling reads the game's current native binding. Controller input activation is not yet supported.
 
@@ -54,6 +56,8 @@ The host does not currently accept arbitrary row label strings or allocate more 
 
 ## Validation
 
-Clone BingusSharedLoader beside this repository. Set `HD2_INPUT_CONFIG` to your locally extracted, unmodified `content/input.config` from Steam build 25327279; its checksum is validated before use. Game captures are not included in the source repository. Run `python -B tests/test_build.py` from this repository to validate the resource and build `releases/Mod-Bindings-Menu-v1.0.zip`.
+Clone BingusSharedLoader beside this repository. Set `HD2_INPUT_CONFIG` to your locally extracted, unmodified `content/input.config` from Steam build 25480438; its checksum is validated before use. Game captures are not included in the source repository. Run `python -B tests/test_build.py` from this repository to validate the resource and build `releases/Mod-Bindings-Menu-v1.1.zip`.
 
 [Artwork and generation prompts](assets/ARTWORK.md). AI-assisted development with GPT-6 Astra.
+
+Current version: **v1.1**, for game build **25480438**. See [changes](CHANGELOG.md) and [validation coverage](docs/MIGRATION_VALIDATION.md).

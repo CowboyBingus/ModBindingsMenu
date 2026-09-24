@@ -1,5 +1,5 @@
 -- HD2-Addon: mods/cowboybingus/mod_bindings_menu
--- Native bindings-page extension for Steam build 25327279.
+-- Native bindings-page extension for Steam build 25480438.
 if rawget(_G, 'ModBindingsMenu') then return end
 local ffi = require('ffi')
 local bit = require('bit')
@@ -41,13 +41,13 @@ local function note(message)
     if log_file then pcall(function() log_file:write(message .. '\n'); log_file:flush() end) end
 end
 
-local GAME_SHA256 = '73374BD4E38386BEB9A23BEF480082B67D457EBC77485FBEC5F488B4E95E201F'
-local EXE_SHA256 = 'D8E23968D1412B07E06785321727D63EDF74E711214D6F6ADEB3BFCA95CA6827'
+local GAME_SHA256 = '2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E'
+local EXE_SHA256 = 'F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06'
 local INPUT_OWNER_PTR_RVA = 0x347cf18
 local MENU_SYSTEM_PTR_RVA = 0x347ce38
 local UI_STATE_PTR_RVA = 0x347ce28
 local ACTION_LABELS_RVA = 0x26438a0
-local BUILD_ROWS_RVA = 0x1812870
+local BUILD_ROWS_RVA = 0x1812940
 local INPUT_KEY_TABLE_RVA = 0x263d1f0
 local MODS_TITLE_PTR_RVA = 0x3328420
 local MODS_TITLE_ID = 0x781e104c

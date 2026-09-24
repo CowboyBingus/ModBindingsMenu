@@ -1,6 +1,8 @@
-Mod Bindings Menu v1.0
+Current local compatibility candidate for Steam build 25480438 / EXE 1.8.46015.0. Offline checks passed; live gameplay verification is pending.
 
-Install Bingus Shared Loader v16 or newer and import this ZIP into Arsenal or
+Mod Bindings Menu v1.1
+
+Install Bingus Shared Loader v17 or newer and import this ZIP into Arsenal or
 HD2MM. Enable and deploy both, then restart Helldivers 2. Keep the shared loader
 as the winning Wwise startup replacement.
 
@@ -10,7 +12,7 @@ Find MODS under General on the Mouse & Keyboard or Controller binding page.
 The Galactic Map keyboard binding defaults to Tab. Controller rows can capture
 a binding, but controller button activation is not yet supported.
 
-Supports Steam build 25327279. Rebuild the input resource after game updates.
+Supports Steam build 25480438. Rebuild the input resource after game updates.
 Conflicts with other content/input.config replacements or mods using the two
 reserved Debugmenu input actions.
 
