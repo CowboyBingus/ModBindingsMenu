@@ -1,3 +1,6 @@
-- Update the shifted native binding addresses for Steam build 25480438.
-- Preserve the MODS binding page and reserved addon slots.
-- Offline builds and package checks pass; live gameplay validation remains pending.
+- Move mod bindings to a native MODS tab on both the Mouse & Keyboard and Controller binding pages, with one section header per mod.
+- Raise capacity to 36 bindings across all mods; registering without a slot assigns a native action automatically and keeps it across sessions.
+- Support every activation type (Press, Hold, Double Tap, Long Press and others) and controller buttons; v1 recognized Press only.
+- Remove the inherited developer mappings of the reserved actions, including left click and controller buttons on the map slot.
+- Stay compatible with v1.1 addons and saved keys; a second addon asking for slot 2 is assigned automatically.
+- Live tests confirmed the MODS tab, section headers, automatic bindings, Double Tap, duplicate keys and restart persistence; controller activation is verified offline.

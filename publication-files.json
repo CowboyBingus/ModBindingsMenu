@@ -12,5 +12,9 @@
   "publication-files.json",
   "scripts/build.py",
   "src/mod_bindings_menu.lua",
-  "tests/test_build.py"
+  "tests/live/binding_test.lua",
+  "tests/run_game_lua.py",
+  "tests/test_api.lua",
+  "tests/test_build.py",
+  "tests/test_mods_tab.lua"
 ]

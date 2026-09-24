@@ -20,22 +20,37 @@ def members(data, offset):
 base = build.BASE_CONFIG.read_bytes()
 patched = build.extend_input_config(base)
 assert patched[:164] == base[:164]
-root = 12 + 13 * 12
-assert patched[root:root + 12] == base[root:root + 12]
-old_group = build.u32(base, root + 8)
-new_group = build.u32(patched, root + 8)
-assert new_group == old_group
-assert len(members(patched, new_group)) == 2
-assert members(patched, new_group)[1] == members(base, old_group)[1]
-first = members(patched, new_group)[0][2]
-assert first >= len(base)
-assert build.u32(patched, first) == 6
-assert build.u32(patched, first + 4) == 1
-mapping = build.u32(patched, first + 8)
-fields = members(patched, mapping)
-assert any(patched[key:key + 6] == b"input\0" and patched[val:val + 4] == b"tab\0"
-           for key, kind, val in fields)
-assert patched[:old_group + 12] == base[:old_group + 12]
+targeted = {(group, action): key for group, action, _, key in build.DEFAULT_ACTIONS}
+for group in range(14):
+    root = 12 + group * 12
+    assert patched[root:root + 12] == base[root:root + 12]
+    group_offset = build.u32(base, root + 8)
+    original = members(base, group_offset)
+    updated = members(patched, group_offset)
+    assert len(original) == len(updated)
+    for action, (before, after) in enumerate(zip(original, updated)):
+        key = targeted.get((group, action))
+        if key is None:
+            assert before == after, (group, action)
+            continue
+        assert before[:2] == after[:2] and after[2] >= len(base)
+        old_mappings = [build.u32(base, before[2] + 8 + i * 4)
+                        for i in range(build.u32(base, before[2] + 4))]
+        new_mappings = [build.u32(patched, after[2] + 8 + i * 4)
+                        for i in range(build.u32(patched, after[2] + 4))]
+        assert len(old_mappings) == len(new_mappings)
+        assert sum(mapping >= len(base) for mapping in new_mappings) == 1
+        assert all(old == new for old, new in zip(old_mappings, new_mappings)
+                   if new < len(base))
+        mapping = next(mapping for mapping in new_mappings if mapping >= len(base))
+        fields = members(patched, mapping)
+        assert any(patched[name:patched.index(0, name)] == b"input"
+                   and patched[value:patched.index(0, value)].decode() == key
+                   for name, _, value in fields)
+        # Mod defaults are Press: RepeatInterval has no type selector in the UI.
+        assert any(patched[name:patched.index(0, name)] == b"trigger"
+                   and patched[value:patched.index(0, value)] == b"Press"
+                   for name, _, value in fields), (group, action)
 
 package = build.build(ROOT / "releases" / f"Mod-Bindings-Menu-v{build.VERSION}.zip")
 with zipfile.ZipFile(package) as archive:
@@ -46,4 +61,4 @@ with zipfile.ZipFile(package) as archive:
     assert struct.unpack_from("<Q", config_patch, 104)[0] == build.CONFIG_NAME
     assert struct.unpack_from("<Q", config_patch, 112)[0] == build.CONFIG_TYPE
     assert struct.unpack_from("<Q", lua_patch, 104)[0] == build.resource_hash(build.LUA_NAME)
-print("Input config extension and addon archives OK")
+print("Six native keyboard defaults, preserved vanilla actions and addon archives OK")

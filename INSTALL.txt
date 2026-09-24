@@ -1,21 +1,26 @@
-Current local compatibility candidate for Steam build 25480438 / EXE 1.8.46015.0. Offline checks passed; live gameplay verification is pending.
-
-Mod Bindings Menu v1.1
+Mod Bindings Menu v2.0
+Supports Helldivers 2 Steam build 25480438 / EXE 1.8.46015.0.
 
 Install Bingus Shared Loader v17 or newer and import this ZIP into Arsenal or
 HD2MM. Enable and deploy both, then restart Helldivers 2. Keep the shared loader
 as the winning Wwise startup replacement.
 
-Install Galactic Menu Hotkey separately, or enable its Vanilla Plus Megapack
-option. Mod Bindings Menu is a separate dependency and is not in the Megapack.
-Find MODS under General on the Mouse & Keyboard or Controller binding page.
-The Galactic Map keyboard binding defaults to Tab. Controller rows can capture
-a binding, but controller button activation is not yet supported.
+Open Options > Mouse & Keyboard or Controller and press E (or RB) to reach the
+MODS tab. Each installed mod has its own section there. Bindings can use any
+activation type (Press, Hold, Double Tap, Long Press...) and controller buttons.
+Up to 36 mod bindings are available; two mods may share a key.
 
-Supports Steam build 25480438. Rebuild the input resource after game updates.
-Conflicts with other content/input.config replacements or mods using the two
-reserved Debugmenu input actions.
+Install Ship Station Hotkeys (formerly Galactic Menu Hotkey) separately, or
+enable its Vanilla Plus Megapack option, to rebind its six shortcuts. Mod
+Bindings Menu is a separate dependency and is not in the Megapack.
+
+Upgrading from v1: your saved keys are kept. The MODS section moves from the
+General tab to the MODS tab.
+
+Rebuild the input resource after game updates. Conflicts with other
+content/input.config replacements or mods using the Freeflight,
+CinematicCamera, DebugAvatar or Debugmenu input actions.
 
 https://github.com/CowboyBingus/BingusSharedLoader/releases/latest
 https://github.com/CowboyBingus/ModBindingsMenu/releases/latest
-https://github.com/CowboyBingus/GalacticMenuHotkey/releases/latest
+https://github.com/CowboyBingus/ShipStationHotkeys/releases/latest

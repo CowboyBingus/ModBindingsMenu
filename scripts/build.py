@@ -20,13 +20,21 @@ from build_addon import entry_source  # noqa: E402
 
 HERE = Path(__file__).resolve().parents[1]
 BASE_CONFIG = Path(os.environ.get("HD2_INPUT_CONFIG", str(HERE / "research" / "input.config")))
-VERSION = "1.1"
+VERSION = "2.0"
 CONFIG_SHA256 = "E509D85AC3603721E5AFE5686C7041798587A108AA86E2DA961A2EA451881A1B"
 CONFIG_NAME = resource_hash("content/input")
 CONFIG_TYPE = resource_hash("config")
 LUA_NAME = "mods/cowboybingus/mod_bindings_menu"
 GUID = "e40fc537-c2a2-493b-ad0f-2255c6a0174e"
-SLOTS = 2
+SLOTS = 7
+DEFAULT_ACTIONS = (
+    (13, 0, "Select", "tab"),
+    (11, 0, "AddNewKeyframeAtFront", "f1"),
+    (11, 1, "UpdateEditKeyframeBlendTimeIncrement", "f5"),
+    (11, 2, "UpdateEditKeyframeBlendCurveCycle", "f6"),
+    (11, 3, "PlaybackReset", "f7"),
+    (11, 4, "UpdateEditKeyframeEaseTypeCycle", "f8"),
+)
 
 
 def u32(data: bytes | bytearray, offset: int) -> int:
@@ -44,40 +52,70 @@ def padded_string(data: bytearray, value: str) -> int:
     return offset
 
 
+def patch_keyboard_action(data: bytearray, base: bytes, group_index: int,
+                          action_index: int, action_name: str, key_name: str) -> None:
+    group_key, group_kind, group = struct.unpack_from(
+        "<III", base, 12 + group_index * 12)
+    assert group_kind == 6 and base[group_key:base.index(0, group_key)] in (
+        b"Debugmenu", b"CinematicCamera")
+    assert action_index < u32(base, group)
+    descriptor = group + 4 + action_index * 12
+    name, kind, value = struct.unpack_from("<III", base, descriptor)
+    assert base[name:base.index(0, name)].decode() == action_name and kind == 5
+    assert u32(base, value) == 6
+    retained = []
+    keyboard = None
+    for index in range(u32(base, value + 4)):
+        mapping = u32(base, value + 8 + index * 4)
+        assert u32(base, mapping) == 5
+        fields = {
+            base[field_key:base.index(0, field_key)].decode():
+                (field_kind, field_value, mapping + 4 + field * 12)
+            for field in range(5)
+            for field_key, field_kind, field_value in
+            [struct.unpack_from("<III", base, mapping + 4 + field * 12)]
+        }
+        device = fields["device_type"][1]
+        is_keyboard = base[device:device + 9] == b"Keyboard\0"
+        if is_keyboard:
+            assert fields["input_type"][0] == 4
+            if keyboard is None:
+                keyboard = mapping
+                retained.append(None)
+        else:
+            retained.append(mapping)
+    assert keyboard is not None, f"{action_name} has no keyboard mapping"
+    key = padded_string(data, key_name)
+    # Some developer actions repeat while held (RepeatInterval), which the
+    # bindings page cannot display or change; mod defaults always use Press.
+    press = padded_string(data, "Press")
+    cloned = len(data)
+    data.extend(base[keyboard:keyboard + 64])
+    patched = set()
+    for field in range(5):
+        descriptor_offset = cloned + 4 + field * 12
+        field_key = u32(data, descriptor_offset)
+        for name, value in ((b"input\0", key), (b"trigger\0", press)):
+            if base[field_key:field_key + len(name)] == name:
+                assert u32(data, descriptor_offset + 4) == 4, f"{action_name} {name!r} not a string"
+                put_u32(data, descriptor_offset + 8, value)
+                patched.add(name)
+    assert patched == {b"input\0", b"trigger\0"}, f"{action_name} mapping lacks input or trigger"
+    action_value = len(data)
+    data.extend(struct.pack("<II", 6, len(retained)))
+    for mapping in retained:
+        data.extend(struct.pack("<I", cloned if mapping is None else mapping))
+    put_u32(data, descriptor + 8, action_value)
+
+
 def extend_input_config(base: bytes) -> bytes:
     data = bytearray(base)
     assert len(base) == 52128, "input.config size changed"
     assert u32(base, 0) == 6 and u32(base, 8) == 14, "input.config root changed"
-    root = 12 + 13 * 12
-    key, kind, group = struct.unpack_from("<III", base, root)
-    assert base[key:key + 10] == b"Debugmenu\0" and kind == 6
-    assert u32(base, group) == 2
-    select_key, select_kind, select_value = struct.unpack_from("<III", base, group + 4)
-    open_key, open_kind, open_value = struct.unpack_from("<III", base, group + 16)
-    assert base[select_key:select_key + 7] == b"Select\0"
-    assert base[open_key:open_key + 5] == b"Open\0"
-    assert select_kind == open_kind == 5
-    assert u32(base, open_value) == 6 and u32(base, open_value + 4) == 4
-    # Bind the already registered Debugmenu.Select action to Tab. This input
-    # context is dormant in normal play; the addon observes its binding.
-    assert u32(base, select_value) == 6 and u32(base, select_value + 4) == 4
-    keyboard_press = u32(base, select_value + 8 + 2 * 4)
-    assert u32(base, keyboard_press) == 5
-    assert base[u32(base, keyboard_press + 4):][:8] == b"trigger\0"
-    tab = padded_string(data, "tab")
-    mapping = len(data)
-    data.extend(base[keyboard_press:keyboard_press + 64])
-    for item in range(5):
-        descriptor = mapping + 4 + item * 12
-        input_key = u32(data, descriptor)
-        if base[input_key:input_key + 6] == b"input\0":
-            put_u32(data, descriptor + 8, tab)
-            break
-    else:
-        raise AssertionError("Keyboard mapping has no input field")
-    value = len(data)
-    data.extend(struct.pack("<III", 6, 1, mapping))
-    put_u32(data, group + 12, value)
+    # Keep Debugmenu.Open unchanged for the existing third-party slot. The
+    # camera actions are dormant in normal play and already have native IDs.
+    for group, action, name, key in DEFAULT_ACTIONS:
+        patch_keyboard_action(data, base, group, action, name, key)
     return bytes(data)
 
 
@@ -106,8 +144,8 @@ def build(output: Path) -> Path:
     manifest = {
         "Version": 1, "Guid": str(uuid.UUID(GUID)), "Name": "Mod Bindings Menu v" + VERSION,
         "IconPath": "thumbnail.png",
-        "Description": "Adds native mod binding rows. Keyboard activation supported; controller activation pending. Requires Bingus Shared Loader v16+.",
-        "Options": [{"Name": "Mod Bindings Menu", "Description": "Native mod binding slots", "Image": "thumbnail.png", "Include": ["Addon"]}],
+        "Description": "Adds a native MODS tab to the keyboard and controller binding pages: up to 36 mod bindings grouped by mod, with every activation type and controller buttons. Requires Bingus Shared Loader v17+.",
+        "Options": [{"Name": "Mod Bindings Menu", "Description": "Native MODS tab for mod bindings", "Image": "thumbnail.png", "Include": ["Addon"]}],
     }
     files = {
         "INSTALL.txt": (HERE / "INSTALL.txt").read_bytes(),
