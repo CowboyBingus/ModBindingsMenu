@@ -6,7 +6,7 @@ Adds a native **MODS** tab next to General, Combat and Communication on both the
 
 [Ship Station Hotkeys](https://github.com/CowboyBingus/ShipStationHotkeys/releases/latest) (formerly Galactic Menu Hotkey) registers its six shortcuts here, defaulting to Tab, F1 and F5–F8.
 
-Install [the release ZIP](https://github.com/CowboyBingus/ModBindingsMenu/releases/latest) and [Bingus Shared Loader v17 or newer](https://github.com/CowboyBingus/BingusSharedLoader/releases/latest), plus the mods that use it. Mod Bindings Menu is a separate dependency and is not bundled in Vanilla Plus Megapack. Enable and deploy, then restart the game. Keep the shared loader as the winning Wwise startup replacement. The bindings mod ships its own `content/input.config` override; another mod that replaces that resource must be merged with it.
+Install [the release ZIP](https://github.com/CowboyBingus/ModBindingsMenu/releases/latest) and [Bingus Shared Loader v17 or newer](https://github.com/CowboyBingus/BingusSharedLoader/releases/latest), plus the mods that use it. Vanilla Plus Megapack v33 also contains Mod Bindings Menu as an option; use either the Megapack option or this package, not both. Enable and deploy, then restart the game. Keep the shared loader as the winning Wwise startup replacement. The bindings mod ships its own `content/input.config` override; another mod that replaces that resource must be merged with it.
 
 ## How it works
 
@@ -66,4 +66,4 @@ Clone BingusSharedLoader beside this repository. Set `HD2_INPUT_CONFIG` to your 
 
 Live tests confirmed the MODS tab on both binding pages, per-mod section headers, twelve automatic bindings, Double Tap, duplicate keys and bindings persisting across restarts. Controller button activation and the removal of the inherited mouse and controller mappings are verified offline only.
 
-[Artwork and generation prompts](assets/ARTWORK.md). AI-assisted development with GPT-6 Astra and Claude.
+[Artwork and generation prompts](assets/ARTWORK.md). AI-assisted development with GPT-6 Astra and Claude Opus 5.5.
