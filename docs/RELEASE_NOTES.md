@@ -1,6 +1,5 @@
-- Move mod bindings to a native MODS tab on both the Mouse & Keyboard and Controller binding pages, with one section header per mod.
-- Raise capacity to 36 bindings across all mods; registering without a slot assigns a native action automatically and keeps it across sessions.
-- Support every activation type (Press, Hold, Double Tap, Long Press and others) and controller buttons; v1 recognized Press only.
-- Remove the inherited developer mappings of the reserved actions, including left click and controller buttons on the map slot.
-- Stay compatible with v1.1 addons and saved keys; a second addon asking for slot 2 is assigned automatically.
-- Live tests confirmed the MODS tab, section headers, automatic bindings, Double Tap, duplicate keys and restart persistence; controller activation is verified offline.
+- Translatable: the MODS tab's own texts follow the game's Text Language when a translation is installed (see TRANSLATING.md).
+- For mod authors (version 3): `label` and `options.category` may be functions that return the text in the current language.
+- Text limits count characters instead of bytes, so Chinese or Cyrillic text gets the same room as English.
+- Section and binding names are upper-cased in every script the game's fonts carry.
+- Measured in live play: 0.013 ms per frame on the ship and 0.014 ms in missions, unchanged from v2.0.

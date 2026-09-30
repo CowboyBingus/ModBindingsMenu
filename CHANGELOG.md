@@ -1,3 +1,11 @@
+# v2.1
+
+- Translatable: the MODS tab's own texts follow the game's Text Language when a translation is installed (see TRANSLATING.md).
+- For mod authors (version 3): `label` and `options.category` may be functions that return the text in the current language.
+- Text limits count characters instead of bytes, so Chinese or Cyrillic text gets the same room as English.
+- Section and binding names are upper-cased in every script the game's fonts carry.
+- Measured in live play: 0.013 ms per frame on the ship and 0.014 ms in missions, unchanged from v2.0.
+
 # v2.0
 
 - Move mod bindings to a native MODS tab beside General, Combat and Communication on both the Mouse & Keyboard and Controller binding pages.
