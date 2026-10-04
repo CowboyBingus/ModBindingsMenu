@@ -1,5 +1,8 @@
-- Translatable: the MODS tab's own texts follow the game's Text Language when a translation is installed (see TRANSLATING.md).
-- For mod authors (version 3): `label` and `options.category` may be functions that return the text in the current language.
-- Text limits count characters instead of bytes, so Chinese or Cyrillic text gets the same room as English.
-- Section and binding names are upper-cased in every script the game's fonts carry.
-- Measured in live play: 0.013 ms per frame on the ship and 0.014 ms in missions, unchanged from v2.0.
+- Keys you set on the MODS tab are never deleted, and automatic bindings keep their action and keys whatever order mods load in.
+- The assignments file is saved with a backup, so an interrupted save no longer loses your bindings.
+- Less work per frame: reading bindings and the binding pages allocates nothing and needs fewer memory reads.
+- On an unsupported game build the menu stops for the session and its log says to remove or update it.
+- When the game or another mod raises an error, the menu pauses and resumes after 60 clean frames; 8 errors in one burst stop it.
+- Another mod's Windows declarations or a malformed translation pack can no longer break the MODS tab.
+- For mod authors: `poll` reads several bindings and their presses in one call, and `revision` tells when to retry a failed registration.
+- Measured in live play: 0.008 ms per frame in missions and 0.007 on the ship.

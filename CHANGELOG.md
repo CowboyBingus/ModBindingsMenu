@@ -1,3 +1,29 @@
+# v2.2
+
+- For mod authors: `ModBindingsMenu.poll(ids, out)` answers several bindings in one call, with each one's state and whether it was pressed or released since your previous poll. Check for it with `type(ModBindingsMenu.poll) == 'function'`.
+- One `poll` of six bindings reads game memory 8 times, where six `is_down` calls read it 18 times, and allocates nothing.
+- For mod authors: `ModBindingsMenu.revision` grows whenever a binding registers, native input becomes ready or the bindings' texts change, so a mod can retry a failed registration when it changes.
+- When no automatic action is free, `register_binding` returns `false` with a reason that tells actions reserved by mods not loaded this session from all 29 automatic actions in use.
+- Automatic bindings keep their native action and keys across sessions, whatever order mods load in: a mod that loads late or skips a session no longer loses them to another mod.
+- An automatic action goes to another binding only after its own binding has not registered for 30 sessions in which a mod asked for an automatic binding; its old keys are then cleared.
+- Keys you set on the MODS tab are never deleted, even ones equal to a developer default the action shipped with.
+- Developer defaults are cleared once per action, when a binding first uses it, and again only when the game restores them (Revert, a config reload, an old saved settings file).
+- Native actions that no mod binding uses this session are left alone, so another mod that uses those developer actions keeps its keys.
+- The assignments file is saved through a temporary file and a backup, and restored from the backup after an interrupted save or damage. Unchanged assignments are not rewritten, and a failed save is retried instead of lost.
+- The background check of the bindings reads only the actions bindings use, once every 2 seconds, and allocates nothing while nothing changed. Before, it read every developer action's mappings (about 250 reads and 30 KB of garbage per check).
+- `is_down` and the per-frame binding page check allocate nothing and read less: 3 reads per `is_down` call instead of 4, and 2 per frame outside a binding page instead of 4.
+- Frames with a binding page open allocate nothing and read less: 5 reads instead of 6 on a native tab, and 6 instead of 15 on the MODS tab.
+- A malformed translation pack is skipped instead of breaking the MODS tab's texts, and a pack forces its language only with `force = true`.
+- Windows functions are declared under private names, so another mod's declarations (such as a textbook `VirtualQuery`) can no longer break the MODS tab.
+- On a game build it does not support, the update stops for the session (status `stopped: unsupported game build`) and the bindings stay inert. The log warns that the input.config replacement is still deployed and says to remove or update the mod.
+- The update runs through Bingus Shared Runtime's update guard, like the family's other mods, and its status, first failure included, survives the game's shutdown.
+- After 8 errors in one burst the update stops and logs the burst's first error instead of failing every frame; 3600 error-free frames (about a minute) end a burst.
+- On such a stop the MODS title and borrowed text slots go back to the game as when a binding page closes, or stay borrowed while a page is open.
+- When the update of a mod below this one fails, the menu pauses and resumes after 60 frames without such an error; 8 such errors in a burst stop it. Your saved keys are never touched.
+- The update passes every argument and return value through to the update it wraps, and no longer builds a new function every frame.
+- The game's module files are hashed once per session for every mod together, through Bingus Shared Runtime, instead of once more by this mod.
+- Measured in live play: 0.008 ms per frame in missions and 0.007 on the ship.
+
 # v2.1
 
 - Translatable: the MODS tab's own texts follow the game's Text Language when a translation is installed (see TRANSLATING.md).

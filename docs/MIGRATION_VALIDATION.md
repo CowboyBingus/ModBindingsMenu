@@ -6,4 +6,4 @@ external live checks did not write game memory or installed files.
 
 Public source excludes raw memory captures and private session recordings.
 Install with the game closed, then Purge / Deploy in one mod manager.
-Use Bingus Shared Loader v17.
+Use Bingus Shared Loader v18; v19 is compatible.

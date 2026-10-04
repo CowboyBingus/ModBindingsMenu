@@ -1,9 +1,9 @@
-Mod Bindings Menu v2.1
+Mod Bindings Menu v2.2
 Supports Helldivers 2 Steam build 25480438 / EXE 1.8.46015.0.
 
-Install Bingus Shared Loader v17 or newer and import this ZIP into Arsenal or
-HD2MM. Enable and deploy both, then restart Helldivers 2. Keep the shared loader
-as the winning Wwise startup replacement.
+Install Bingus Shared Loader v18 or newer (v19 is current) and import this
+ZIP into Arsenal or HD2MM. Enable and deploy both, then restart Helldivers 2.
+Keep the shared loader as the winning Wwise startup replacement.
 
 Open Options > Mouse & Keyboard or Controller and press E (or RB) to reach the
 MODS tab. Each installed mod has its own section there. Bindings can use any
@@ -12,7 +12,7 @@ Up to 36 mod bindings are available; two mods may share a key.
 
 Install Ship Station Hotkeys (formerly Galactic Menu Hotkey) separately, or
 enable its Vanilla Plus Megapack option, to rebind its six shortcuts.
-Vanilla Plus Megapack v36 also bundles Mod Bindings Menu v2.1 as an option:
+Vanilla Plus Megapack also bundles Mod Bindings Menu as an option:
 use either that option or this standalone addon, not both.
 
 The MODS tab follows the game's Text Language when a translation is
