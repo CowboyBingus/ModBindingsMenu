@@ -4,15 +4,15 @@
 return {
     mod = 'mod_bindings_menu',
     title = 'Mod Bindings Menu',
-    language = 'en',
+    language = 'zh-Hant',
     strings = {
         -- The fourth tab of the key and controller binding pages, after the game's own
         -- three. Upper case like theirs, and about as short.
-        ['tab.mods'] = 'MODS',
+        ['tab.mods'] = '模組',
         -- The only row of the MODS tab when no mod has registered a binding.
-        ['section.none'] = 'NO MOD BINDINGS INSTALLED',
+        ['section.none'] = '無可綁定按鍵的模組',
         -- Section name for bindings of a mod that gave no name.
-        ['section.unnamed'] = 'MODS',
+        ['section.unnamed'] = '模組',
     },
     -- Rough room in ems (the tool warns when a translation looks wider).
     widths = {['tab.mods'] = 8},
