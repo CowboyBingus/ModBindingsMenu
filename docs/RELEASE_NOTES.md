@@ -1,8 +1,5 @@
-- Keys you set on the MODS tab are never deleted, and automatic bindings keep their action and keys whatever order mods load in.
-- The assignments file is saved with a backup, so an interrupted save no longer loses your bindings.
-- Less work per frame: reading bindings and the binding pages allocates nothing and needs fewer memory reads.
-- On an unsupported game build the menu stops for the session and its log says to remove or update it.
-- When the game or another mod raises an error, the menu pauses and resumes after 60 clean frames; 8 errors in one burst stop it.
-- Another mod's Windows declarations or a malformed translation pack can no longer break the MODS tab.
-- For mod authors: `poll` reads several bindings and their presses in one call, and `revision` tells when to retry a failed registration.
-- Measured in live play: 0.008 ms per frame in missions and 0.007 on the ship.
+- Fixed: the MODS tab's first section header (and the "no mod bindings installed" line) was blank in every game language except English, Japanese and Simplified Chinese, because it borrowed a game text ID those languages alone have.
+- Every text ID the MODS tab borrows now exists in all of the game's languages; six that did not were removed from its pool.
+- Up to 59 different texts can show on the MODS tab at once, down from 65.
+- Per-frame work is unchanged from v2.2, measured there at 0.008 ms per frame in missions and 0.007 on the ship.
+- Not yet checked in game in a language other than English.

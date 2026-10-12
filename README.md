@@ -1,6 +1,6 @@
 ![Mod Bindings Menu](assets/banner.png)
 
-# Mod Bindings Menu v2.2
+# Mod Bindings Menu v2.2.1
 
 Adds a native **MODS** tab next to General, Combat and Communication on both the Mouse & Keyboard and Controller binding pages. Every mod binding lives there, grouped under one section header per mod. Rows use Helldivers 2's own capture widgets, activation types (Press, Hold, Double Tap, Long Press and so on) and saved input settings, and bindings work on keyboard, mouse and controller. All installed mods share one pool of **36** bindings (29 assigned automatically, 7 fixed slots). Two mods may use the same key.
 

@@ -1,3 +1,11 @@
+# v2.2.1
+
+- Fixed: the MODS tab's first section header (and the "no mod bindings installed" line) was blank in every game language except English, Japanese and Simplified Chinese, because it borrowed a game text ID those languages alone have.
+- Every text ID the MODS tab borrows now exists in all of the game's languages; six that did not were removed from its pool.
+- Up to 59 different texts can show on the MODS tab at once, down from 65.
+- Per-frame work is unchanged from v2.2, measured there at 0.008 ms per frame in missions and 0.007 on the ship.
+- Not yet checked in game in a language other than English.
+
 # v2.2
 
 - For mod authors: `ModBindingsMenu.poll(ids, out)` answers several bindings in one call, with each one's state and whether it was pressed or released since your previous poll. Check for it with `type(ModBindingsMenu.poll) == 'function'`.
