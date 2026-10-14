@@ -10,6 +10,12 @@ MODS tab. Each installed mod has its own section there. Bindings can use any
 activation type (Press, Hold, Double Tap, Long Press...) and controller buttons.
 Up to 36 mod bindings are available; two mods may share a key.
 
+Updating preserves your existing custom bindings. If mission selection still
+immediately deselects with Ship Station Hotkeys after updating, open the MODS
+tab on the affected device's binding page (Mouse & Keyboard or Controller)
+and choose Revert. This restores clean defaults and also resets custom
+bindings on that tab for that device; set any custom bindings again afterward.
+
 Install Ship Station Hotkeys (formerly Galactic Menu Hotkey) separately, or
 enable its Vanilla Plus Megapack option, to rebind its six shortcuts.
 Vanilla Plus Megapack also bundles Mod Bindings Menu as an option:
@@ -20,6 +26,11 @@ installed; see TRANSLATING.md in the repository.
 
 Upgrading from v1: your saved keys are kept. The MODS section moves from the
 General tab to the MODS tab.
+
+This is the refreshed v2.2.1 pre-release. The binding reset fix passed offline
+regression and package checks; live validation and measurement of its added
+binding-page and periodic checks are pending. Ordinary gameplay idle checks
+and binding polling are unchanged.
 
 Rebuild the input resource after game updates. Conflicts with other
 content/input.config replacements or mods using the Freeflight,
