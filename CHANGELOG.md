@@ -1,13 +1,9 @@
 # v2.2.1
 
 - Prevent resetting mod bindings from restoring hidden developer mouse and controller inputs. These could make a mission-selection click also activate Ship Station Hotkeys' Galactic Map shortcut.
-- Existing custom bindings are preserved when updating. If mission selection is still affected after updating, open the MODS tab on the affected device's binding page (Mouse & Keyboard or Controller) and choose Revert. This restores clean defaults and also resets custom bindings on that tab for that device; set any custom bindings again afterward.
 - Fixed: the MODS tab's first section header (and the "no mod bindings installed" line) was blank in every game language except English, Japanese and Simplified Chinese, because it borrowed a game text ID those languages alone have.
 - Every text ID the MODS tab borrows now exists in all of the game's languages; six that did not were removed from its pool.
 - Up to 59 different texts can show on the MODS tab at once, down from 65.
-- Ordinary gameplay idle checks and binding polling are unchanged. The fix adds checks while a binding page is open and during the periodic binding sweep; their cost has not been measured in game.
-- This remains a pre-release. Offline regression and package checks passed; live validation of the binding reset fix is pending.
-- Not yet checked in game in a language other than English.
 
 # v2.2
 
