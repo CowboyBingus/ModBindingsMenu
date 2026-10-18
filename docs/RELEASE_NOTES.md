@@ -12,3 +12,4 @@
 - Up to 59 different texts can show on the MODS tab at once, down from 65.
 - Never changes the game's memory protection: a write to a page that is not writable is skipped and logged.
 - No longer replaces the game's input configuration (`content/input`): its six keyboard defaults are added while the game runs, only on a supported game build.
+- Outside the binding pages a frame now reads game memory once instead of twice, and the game's Lua compiler no longer keeps retrying to compile the menu's per-frame check. Measured in game: 0.006 ms per frame on the ship instead of 0.009, and 0.005-0.006 ms in missions instead of 0.010-0.012.
