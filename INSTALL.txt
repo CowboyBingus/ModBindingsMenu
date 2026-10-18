@@ -30,9 +30,9 @@ installed; see TRANSLATING.md in the repository.
 Upgrading from v1: your saved keys are kept. The MODS section moves from the
 General tab to the MODS tab.
 
-Rebuild the input resource after game updates. Conflicts with other
-content/input.config replacements or mods using the Freeflight,
-CinematicCamera, DebugAvatar or Debugmenu input actions.
+Replaces no game file. On a game build it does not support it changes
+nothing; update it after game updates. Conflicts with mods using the
+Freeflight, CinematicCamera, DebugAvatar or Debugmenu input actions.
 
 https://github.com/CowboyBingus/BingusSharedLoader/releases/latest
 https://github.com/CowboyBingus/ModBindingsMenu/releases/latest

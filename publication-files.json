@@ -44,6 +44,7 @@
   "tests/test_ffi_names.lua",
   "tests/test_ffi_names_hostile_first.lua",
   "tests/test_ffi_names_mbm_first.lua",
+  "tests/test_keyboard_defaults.lua",
   "tests/test_mods_tab.lua",
   "tests/test_panel.lua",
   "tests/test_poll.lua",
