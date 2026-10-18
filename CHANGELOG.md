@@ -13,7 +13,7 @@
 - Every text ID the MODS tab borrows now exists in all of the game's languages; six that did not were removed from its pool.
 - Up to 59 different texts can show on the MODS tab at once, down from 65.
 - Never changes the game's memory protection: a write to a page that is not writable is skipped and logged.
-- No longer replaces the game's input settings file: its six keyboard defaults are added while the game runs, only on a supported game build.
+- No longer replaces the game's input configuration (`content/input`): its six keyboard defaults are added while the game runs, only on a supported game build.
 
 # v2.2.1
 
