@@ -36,10 +36,8 @@ int MBM_ReadProcessMemory(void *process, const void *address, void *buffer,
                           size_t size, size_t *received) __asm__("ReadProcessMemory");
 int MBM_read_at(void *process, MBM_u64 address, void *buffer, size_t size,
                 size_t *received) __asm__("ReadProcessMemory");
-int MBM_VirtualProtect(void *address, size_t size, MBM_u32 protection, MBM_u32 *old) __asm__("VirtualProtect");
 size_t MBM_VirtualQuery(const void *address, MBM_MEMORY_BASIC_INFORMATION *info,
                         size_t length) __asm__("VirtualQuery");
-MBM_u32 MBM_GetLastError(void) __asm__("GetLastError");
 ]]
 
 local kernel32 = ffi.load('kernel32')
@@ -241,38 +239,38 @@ local function word_pointer(index)
     if value < 0x10000 or value >= 0x800000000000 then return nil end
     return value
 end
--- Every address this addon writes lies in game.dll's read-write data section,
--- so pages are normally writable as they are. Changing page protection is only
--- a fallback: the game's protection layer can start refusing VirtualProtect
--- mid-session. Returns false (never raises) when the write is not possible, so
--- callers degrade instead of leaving the bindings page half built.
+-- Every address this addon writes lies in game.dll's read-write data section
+-- (its third section, marked writable in the module's header on build
+-- 25480438), so pages are writable as they are. The addon never changes page
+-- protection: a write to a page that is not committed, writable and unguarded
+-- over the whole range is skipped and logged. Returns false (never raises)
+-- when the write is not possible, so callers degrade instead of leaving the
+-- bindings page half built.
 local MEM_COMMIT, PAGE_GUARD = 0x1000, 0x100
 local WRITABLE_PAGES = {[0x04] = true, [0x08] = true, [0x40] = true, [0x80] = true}
-local refusals_logged = 0
+-- One page record for every query, made once (no allocation per write).
+local page_info = ffi.new('MBM_MEMORY_BASIC_INFORMATION')
+local PAGE_INFO_SIZE = ffi.sizeof(page_info)
+-- Skipped writes: one line per address, at most four per session.
+local skips_logged, skip_lines = {}, 0
+local function skip_write(address, protection)
+    local offset = address - (state.base or 0)
+    if skips_logged[offset] or skip_lines >= 4 then return false end
+    skips_logged[offset], skip_lines = true, skip_lines + 1
+    note(string.format('Write skipped at game.dll+0x%x: page not writable (protection 0x%x).', offset, protection))
+    return false
+end
 local function write_memory(address, size, fn)
-    local info = ffi.new('MBM_MEMORY_BASIC_INFORMATION')
-    local pointer_value = ffi.cast('const void *', address)
-    if kernel32.MBM_VirtualQuery(pointer_value, info, ffi.sizeof(info)) == 0
-       or info.State ~= MEM_COMMIT then return false end
-    local region_end = tonumber(ffi.cast('MBM_u64', info.BaseAddress)) + tonumber(info.RegionSize)
-    if WRITABLE_PAGES[bit.band(info.Protect, 0xff)] and bit.band(info.Protect, PAGE_GUARD) == 0
-       and address + size <= region_end then
-        fn()
-        return true
+    if kernel32.MBM_VirtualQuery(ffi.cast('const void *', address), page_info, PAGE_INFO_SIZE) == 0 then
+        return skip_write(address, 0)
     end
-    local old = ffi.new('MBM_u32[1]')
-    if kernel32.MBM_VirtualProtect(ffi.cast('void *', address), size, 0x04, old) == 0 then
-        if refusals_logged < 4 then
-            refusals_logged = refusals_logged + 1
-            note(string.format('Write refused at game.dll+0x%x (protection 0x%x, error %d).',
-                               address - (state.base or 0), info.Protect, kernel32.MBM_GetLastError()))
-        end
-        return false
+    local protection = page_info.Protect
+    local region_end = tonumber(ffi.cast('MBM_u64', page_info.BaseAddress)) + tonumber(page_info.RegionSize)
+    if page_info.State ~= MEM_COMMIT or not WRITABLE_PAGES[bit.band(protection, 0xff)]
+       or bit.band(protection, PAGE_GUARD) ~= 0 or address + size > region_end then
+        return skip_write(address, protection)
     end
-    local ok, result = pcall(fn)
-    local ignored = ffi.new('MBM_u32[1]')
-    kernel32.MBM_VirtualProtect(ffi.cast('void *', address), size, old[0], ignored)
-    if not ok then error(result) end
+    fn()
     return true
 end
 

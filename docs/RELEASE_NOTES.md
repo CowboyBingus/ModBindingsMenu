@@ -10,3 +10,4 @@
 - Fixed: the MODS tab's first section header (and the "no mod bindings installed" line) was blank in every game language except English, Japanese and Simplified Chinese, because it borrowed a game text ID those languages alone have.
 - Every text ID the MODS tab borrows now exists in all of the game's languages; six that did not were removed from its pool.
 - Up to 59 different texts can show on the MODS tab at once, down from 65.
+- Never changes the game's memory protection: a write to a page that is not writable is skipped and logged.
