@@ -1,3 +1,27 @@
+# v2.3
+
+- No fixed limit on mod bindings: once the 36 native actions are held, a registration gets an extended binding instead of failing.
+- Extended bindings appear on a fifth tab, MORE MODS, on both binding pages, shown only while there are any.
+- MORE MODS is offered only outside missions; in a mission the binding pages show the native tabs and MODS, and extended bindings keep working.
+- On MORE MODS, choose a row with the mouse, the arrow keys or the D-pad and press Enter, A or click to set its key; Escape or B cancels, Delete, Backspace or X clears it.
+- The keyboard page sets keyboard keys and mouse buttons, the controller page controller buttons; an extended binding can have both.
+- Extended bindings support Press, Release and Hold, alternatives, and modifier keys or buttons; controller buttons count on any connected controller, also one plugged in during play.
+- Extended bindings read the game engine's own input, never Windows, and only when a mod asks for them.
+- Extended bindings' keys are saved in `ModBindingsMenu.bindings` beside the assignments file, through a temporary file and a backup; a damaged file is restored from the backup or set aside.
+- A file written by a newer Mod Bindings Menu is left as it is, and its bindings stay inactive.
+- A binding keeps its kind for good: a native binding never becomes extended, nor an extended one native.
+- While the player chooses a key, every mod binding reads `false`, and the page ignores that key: Escape cancels the choice without closing the page.
+- For mod authors: `version` is 4; `api` stays 1, so every earlier addon keeps working.
+- For mod authors: `options.backend` asks for an extended binding (`'extended'`) or keeps the old refusal (`'native'`); `options.default` gives an extended binding its first keys.
+- For mod authors: `set_binding(id, spec)`, `binding(id)` and `binding_info(id)` set and read extended bindings; `extended` lists the supported devices and triggers.
+- For mod authors: an extended binding's `is_down` is `false`, never `nil`, when it has no keys, so a mod that falls back to its own keys on `nil` never overrides a cleared binding.
+- Fixed: two v1.1 mods that both ask for slot 2 no longer swap keys when their load order changes; slot 2 now stays with the same mod across sessions.
+- Saved settings from earlier versions are repaired on first use: the mod that was moved off slot 2 keeps its binding, the other keeps slot 2.
+- Prevent resetting mod bindings from restoring hidden developer mouse and controller inputs. These could make a mission-selection click also activate Ship Station Hotkeys' Galactic Map shortcut.
+- Fixed: the MODS tab's first section header (and the "no mod bindings installed" line) was blank in every game language except English, Japanese and Simplified Chinese, because it borrowed a game text ID those languages alone have.
+- Every text ID the MODS tab borrows now exists in all of the game's languages; six that did not were removed from its pool.
+- Up to 59 different texts can show on the MODS tab at once, down from 65.
+
 # v2.2.1
 
 - Prevent resetting mod bindings from restoring hidden developer mouse and controller inputs. These could make a mission-selection click also activate Ship Station Hotkeys' Galactic Map shortcut.

@@ -1,4 +1,4 @@
-Mod Bindings Menu v2.2.1
+Mod Bindings Menu v2.3
 Supports Helldivers 2 Steam build 25480438 / EXE 1.8.46015.0.
 
 Install Bingus Shared Loader v18 or newer (v19 is current) and import this
@@ -8,10 +8,13 @@ Keep the shared loader as the winning Wwise startup replacement.
 Open Options > Mouse & Keyboard or Controller and press E (or RB) to reach the
 MODS tab. Each installed mod has its own section there. Bindings can use any
 activation type (Press, Hold, Double Tap, Long Press...) and controller buttons.
-Up to 36 mod bindings are available; two mods may share a key.
+36 mod bindings live there; two mods may share a key. Bindings beyond those
+appear on a fifth tab, MORE MODS, which is offered only outside missions.
+Those bindings work everywhere.
 
 Updating preserves your existing custom bindings. If mission selection still
-immediately deselects with Ship Station Hotkeys after updating, open the MODS
+immediately deselects with Ship Station Hotkeys after updating from v2.2 or
+older, open the MODS
 tab on the affected device's binding page (Mouse & Keyboard or Controller)
 and choose Revert. This restores clean defaults and also resets custom
 bindings on that tab for that device; set any custom bindings again afterward.
@@ -26,11 +29,6 @@ installed; see TRANSLATING.md in the repository.
 
 Upgrading from v1: your saved keys are kept. The MODS section moves from the
 General tab to the MODS tab.
-
-This is the refreshed v2.2.1 pre-release. The binding reset fix passed offline
-regression and package checks; live validation and measurement of its added
-binding-page and periodic checks are pending. Ordinary gameplay idle checks
-and binding polling are unchanged.
 
 Rebuild the input resource after game updates. Conflicts with other
 content/input.config replacements or mods using the Freeflight,
